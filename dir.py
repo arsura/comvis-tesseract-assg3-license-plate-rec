@@ -1,0 +1,5 @@
+RAW_IMG_DIR = "img/raw/"
+RAW_WITH_REC_DIR = "img/raw_with_rec/"
+THRSH_IMG_DIR = "img/threshold/"
+OUTPUT_DIR =  "img/output/"
+CROP_DIR = "img/crop/"
