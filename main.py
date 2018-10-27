@@ -28,10 +28,19 @@ def threshold_image(image):
             max_x = x
             max_y = y
         
-    cv.rectangle(img, (max_x, max_y), (max_x + max_w, max_y + max_h), (0, 255, 0), 5)
-    crop_thesh_img = threshold_image[max_y:max_y + max_h, max_x:max_x + max_w]
 
-    crop_thesh_img = cv.resize(crop_thesh_img, None, fx=0.2, fy=0.2)
+    crop_size = {
+        "x": max_x + 200,
+        "y": max_y + 100,
+        "height": (max_y + max_h) - 100,
+        "wide": (max_x + max_w) - 200
+    }
+
+    cv.rectangle(img, (crop_size["x"], crop_size["y"]), (crop_size["wide"], crop_size["height"]), (0, 255, 0), 3)
+
+    crop_thesh_img = threshold_image[crop_size["y"]:crop_size["height"], crop_size["x"]:crop_size["wide"]]
+
+    crop_thesh_img = cv.resize(crop_thesh_img, None, fx=0.4, fy=0.4)
     cv.imwrite("{}{}".format(THRSH_IMG_DIR, image), threshold_image)
     cv.imwrite("{}{}".format(RAW_WITH_REC_DIR, image), img)
     cv.imwrite("{}{}".format(CROP_DIR, image), crop_thesh_img)
@@ -42,7 +51,7 @@ def tesseract_cmd(image, lang):
     os.system("tesseract {}{} {}{} -l {} -c preserve_interword_spaces=1".format(CROP_DIR, image, OUTPUT_DIR, image, lang)) 
 
 def main():
-    windows_init()
+#     windows_init()
     
     for i in range(1, 44):
         threshold_image("{}.jpg".format(i))
